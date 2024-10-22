@@ -20,13 +20,14 @@ app.use(cors({
 
 // Configuración de sesión
 app.use(session({
-    secret: 'tu_secreto',
+    secret: process.env.SESSION_SECRET || 'tu_secreto',
     resave: false,
     saveUninitialized: true,
     cookie: {
         secure: false, // Cambia a true si usas HTTPS
         httpOnly: true,
         sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000 // 1 día de duración para la cookie de sesión
     }
 }));
 app.use(passport.initialize());

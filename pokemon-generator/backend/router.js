@@ -21,4 +21,17 @@ router.get('/auth/status', (req, res) => {
     res.json({ isAuthenticated: req.isAuthenticated() });
 });
 
+router.get('/auth/logout', (req, res, next) => { // Añadir next aquí
+    console.log('Antes de logout:', req.session);
+    req.logout((err) => {
+        if (err) {
+            return next(err); // Pasar el error al middleware de manejo de errores
+        }
+        req.session.destroy(() => {
+            console.log('Sesión destruida.');
+            res.clearCookie('connect.sid'); // Asegúrate de que sea la cookie correcta
+            res.status(200).json({ message: 'Sesión cerrada exitosamente' });
+        });
+    });
+});
 module.exports = router;

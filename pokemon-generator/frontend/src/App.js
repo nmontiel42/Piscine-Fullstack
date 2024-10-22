@@ -27,7 +27,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/" />} />
+                <Route path="/home" element={isAuthenticated ? <Home setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/" />} />
                 <Route path="/" element={
                     !isAuthenticated ? (
                         <div>
