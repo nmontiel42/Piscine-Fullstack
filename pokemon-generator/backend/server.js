@@ -27,7 +27,7 @@ app.use(session({
         secure: false, // Cambia a true si usas HTTPS
         httpOnly: true,
         sameSite: 'lax',
-        maxAge: 1 * 60 * 1000 // 1 día de duración para la cookie de sesión
+        maxAge: 1 * 60 * 1000 // 1 minuto de duración para la cookie de sesión
     }
 }));
 app.use(passport.initialize());
@@ -48,6 +48,22 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((obj, done) => {
     done(null, obj);
+});
+
+// Ruta para obtener los datos del usuario autenticado
+app.get('/auth/user', (req, res) => {
+    if (req.isAuthenticated()) {
+        // Devuelve la información del usuario si está autenticado
+        const { displayName, username, photos } = req.user;
+        res.status(200).json({
+            name: displayName,
+            username: username,
+            photo: photos[0].value // Fotos es un array, tomamos la primera
+        });
+    } else {
+        // Si no está autenticado, responde con un error
+        res.status(401).json({ error: 'Usuario no autenticado' });
+    }
 });
 
 // Usar las rutas definidas en router.js

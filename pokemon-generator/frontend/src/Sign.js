@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const Sign = () => {
+
     const handleLogin = () => {
         window.location.href = 'http://localhost:5000/auth/github';
     };
+
 
     return (
         <div>

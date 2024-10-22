@@ -7,14 +7,22 @@ import Sign from './Sign';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null); // Estado para guardar la info del usuario
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                setIsAuthenticated(response.data.isAuthenticated);
+                // Verifica si el usuario está autenticado
+                const authResponse = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                setIsAuthenticated(authResponse.data.isAuthenticated);
+
+                if (authResponse.data.isAuthenticated) {
+                    // Si está autenticado, obtiene los datos del usuario
+                    const userResponse = await axios.get('http://localhost:5000/auth/user', { withCredentials: true });
+                    setUser(userResponse.data); // Guardar la info del usuario
+                }
             } catch (error) {
-                console.error('Error checking authentication:', error);
+                console.error('Error checking authentication or fetching user data:', error);
             }
         };
 
@@ -24,14 +32,25 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/home" element={isAuthenticated ? <Home setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/" />} />
-                <Route path="/" element={
-                    !isAuthenticated ? (
-                        <Sign />
-                    ) : (
-                        <Navigate to="/home" />
-                    )
-                } />
+                <Route 
+                    path="/home" 
+                    element={
+                        isAuthenticated ? 
+                        <Home user={user} setIsAuthenticated={setIsAuthenticated} /> 
+                        : 
+                        <Navigate to="/" />
+                    } 
+                />
+                <Route 
+                    path="/" 
+                    element={
+                        !isAuthenticated ? (
+                            <Sign />
+                        ) : (
+                            <Navigate to="/home" />
+                        )
+                    } 
+                />
             </Routes>
         </Router>
     );
