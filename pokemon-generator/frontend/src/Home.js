@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ImageFetcher from './components/ImageFetcher';
 
 const Home = ({ setIsAuthenticated }) => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Home = ({ setIsAuthenticated }) => {
         <div>
             <h1>Bienvenido a la Generador de Pokémon</h1>
             <p>¡Aquí puedes generar Pokémon a partir de tus sugerencias!</p>
+            <ImageFetcher />
             <button onClick={handleLogout}>Cerrar sesión</button>
         </div>
     );
