@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import axios from 'axios';
 import Home from './Home'; // Asegúrate de que este componente esté creado
 import Sign from './Sign';
+import './index.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
