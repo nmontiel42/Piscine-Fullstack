@@ -1,4 +1,3 @@
-// src/Home.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,12 +20,22 @@ const Home = ({ user, setIsAuthenticated }) => {
     };
 
     return (
-        <div>
-            <h1>Bienvenido, {user?.name} @{user?.username}</h1>
-            <img src={user?.photo} alt="Foto de perfil" width={50} height={50} />
-            <p>¡Aquí puedes generar Pokémon a partir de tus sugerencias!</p>
-            <ImageFetcher />
-            <button onClick={handleLogout}>Cerrar sesión</button>
+        <div className="flex flex-col items-center bg-gray-100 min-h-screen p-4 md:p-8">
+            <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
+                <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
+                    Bienvenid@, {user?.name}
+                </h1>
+                <p className="text-gray-600 mb-6">
+                    ¡Aquí puedes generar imagenes a partir de tus sugerencias!
+                </p>
+                <ImageFetcher />
+                <button
+                    onClick={handleLogout}
+                    className="mt-4 bg-gray-800 text-white rounded-lg px-6 py-2 transition duration-300 hover:bg-gray-700"
+                >
+                    Cerrar sesión
+                </button>
+            </div>
         </div>
     );
 };

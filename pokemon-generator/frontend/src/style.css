@@ -1,0 +1,11 @@
+body {
+    background-image: url('https://i.pinimg.com/enabled_lo/736x/49/4d/8a/494d8ad19f442c3d05c0c6f30ca9da85.jpg');
+}
+
+@media (min-width: 1024px) {
+    body {
+        background-image: url('/public/fondo.jpg');
+        background-size: cover;
+    }
+
+}

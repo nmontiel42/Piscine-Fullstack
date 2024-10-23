@@ -1,4 +1,3 @@
-// src/components/ImageFetcher.js
 import React, { useState } from 'react';
 import { fetchImage } from '../api/unsplash';
 
@@ -34,38 +33,35 @@ const ImageFetcher = () => {
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                name="subject"
-                value={prompt.subject}
-                onChange={handleChange}
-                placeholder="Sujeto (ej: gato)"
-            />
-            <input
-                type="text"
-                name="style"
-                value={prompt.style}
-                onChange={handleChange}
-                placeholder="Estilo (ej: fotografía)"
-            />
-            <input
-                type="text"
-                name="color"
-                value={prompt.color}
-                onChange={handleChange}
-                placeholder="Color (ej: negro)"
-            />
-            <input
-                type="text"
-                name="mood"
-                value={prompt.mood}
-                onChange={handleChange}
-                placeholder="Estado de ánimo (ej: feliz)"
-            />
-            <button onClick={handleFetchImage}>Obtener Imagen</button>
-            {error && <p>{error}</p>}
-            {imageUrl && <img src={imageUrl} alt={prompt.subject} style={{ marginTop: '20px', maxWidth: '100%' }} />}
+        <div className="bg-white shadow-lg rounded-lg p-6 mt-4 w-full max-w-md mx-auto">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Generador de Imágenes</h2>
+            <div className="flex flex-col space-y-4">
+                {['subject', 'style', 'color', 'mood'].map((field) => (
+                    <input
+                        key={field}
+                        type="text"
+                        name={field}
+                        value={prompt[field]}
+                        onChange={handleChange}
+                        placeholder={`Ingrese ${field} (ej: ${field === 'subject' ? 'gato' : field})`}
+                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition duration-200"
+                    />
+                ))}
+            </div>
+            <button
+                onClick={handleFetchImage}
+                className="mt-4 bg-gray-800 text-white rounded-md px-6 py-2 transition duration-300 hover:bg-gray-700"
+            >
+                Obtener Imagen
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+            {imageUrl && (
+                <img
+                    src={imageUrl}
+                    alt={prompt.subject}
+                    className="mt-4 max-w-full rounded-md shadow-md"
+                />
+            )}
         </div>
     );
 };
