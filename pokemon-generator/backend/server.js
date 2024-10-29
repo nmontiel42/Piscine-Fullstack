@@ -5,6 +5,7 @@ const session = require('express-session');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -69,7 +70,24 @@ app.get('/auth/user', (req, res) => {
 // Usar las rutas definidas en router.js
 app.use('/', router);
 
+app.get('/api/fetchImage', async (req, res) => {
+    const { query } = req.query; // Obtener la consulta desde el parámetro de consulta
+    try {
+        const response = await axios.get(`https://api.unsplash.com/photos/random`, {
+            params: {
+                query: query,
+                client_id: process.env.UNSPLASH_ACCESS_KEY // Usar la API key desde el archivo .env
+            },
+        });
+        res.json(response.data.urls.regular); // Devolver solo la URL de la imagen
+    } catch (error) {
+        console.error('Error fetching image from Unsplash:', error);
+        res.status(500).json({ error: 'Error fetching image from Unsplash' });
+    }
+});
+
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+

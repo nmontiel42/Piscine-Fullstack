@@ -1,25 +1,20 @@
 // src/api/unsplash.js
 import axios from 'axios';
 
-const UNSPLASH_ACCESS_KEY = 'ZO5ShxgU9kfHJRk-TANtX6KDpQMCT48CtwXrfUcUBcI'; // Reemplaza con tu Access Key
+const UNSPLASH_ACCESS_KEY = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
 
 export const fetchImage = async (prompt) => {
+    const query = `${prompt.subject} ${prompt.style} ${prompt.color} ${prompt.mood}`.trim();
     try {
-        // Crear un string del prompt basado en las propiedades del objeto
-        const query = `${prompt.subject} ${prompt.style} ${prompt.color} ${prompt.mood}`.trim();
-
-        const response = await axios.get(`https://api.unsplash.com/photos/random`, {
-            params: {
-                query: query,
-                client_id: UNSPLASH_ACCESS_KEY,
-            },
-        });
-        return response.data.urls.regular; // Devuelve la URL de la imagen
+        const response = await fetch(`http://localhost:5000/api/fetchImage?query=${encodeURIComponent(query)}`);
+        const imageUrl = await response.json();
+        return imageUrl;
     } catch (error) {
         console.error('Error fetching image:', error);
         throw error;
     }
 };
+
 
 // Ejemplo de uso
 const examplePrompt = {
